@@ -10,7 +10,7 @@ interface TodoItemProps {
 }
 
 export const TodoItem: React.FC<TodoItemProps> = ({
-  todo,
+  todo: { id, title, completed },
   loading,
   isActive,
 }) => {
@@ -18,36 +18,36 @@ export const TodoItem: React.FC<TodoItemProps> = ({
     <div
       data-cy="Todo"
       className={classNames('todo', {
-        completed: todo.completed,
+        completed,
       })}
-      key={todo.id}
+      key={id}
     >
       <label className="todo__status-label">
         <input
           data-cy="TodoStatus"
           type="checkbox"
           className="todo__status"
-          checked={todo.completed}
+          checked={completed}
           onChange={() => {}}
           disabled={loading}
         />
       </label>
 
-      {todo.id === isActive ? (
+      {id === isActive ? (
         <form>
           <input
             data-cy="TodoTitleField"
             type="text"
             className="todo__title-field"
             placeholder="Empty todo will be deleted"
-            value={todo.title}
+            value={title}
             onChange={() => {}}
           />
         </form>
       ) : (
         <>
           <span data-cy="TodoTitle" className="todo__title">
-            {todo.title}
+            {title}
           </span>
 
           <button

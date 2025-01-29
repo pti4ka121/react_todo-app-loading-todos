@@ -1,12 +1,13 @@
 import React from 'react';
 import classNames from 'classnames';
 import { Todo } from '../types/Todo';
+import { Filter } from '../types/Filter';
 
 interface FooterProps {
   todos: Todo[];
   todosLeft: number;
-  filter: 'all' | 'active' | 'completed';
-  onFilterChange: (filter: 'all' | 'active' | 'completed') => void;
+  filter: Filter;
+  onFilterChange: (filter: Filter) => void;
   loading: boolean;
 }
 
@@ -26,38 +27,19 @@ export const Footer: React.FC<FooterProps> = ({
           </span>
 
           <nav className="filter" data-cy="Filter">
-            <a
-              href="#/"
-              className={classNames('filter__link', {
-                selected: filter === 'all',
-              })}
-              data-cy="FilterLinkAll"
-              onClick={() => onFilterChange('all')}
-            >
-              All
-            </a>
-
-            <a
-              href="#/active"
-              className={classNames('filter__link', {
-                selected: filter === 'active',
-              })}
-              data-cy="FilterLinkActive"
-              onClick={() => onFilterChange('active')}
-            >
-              Active
-            </a>
-
-            <a
-              href="#/completed"
-              className={classNames('filter__link', {
-                selected: filter === 'completed',
-              })}
-              data-cy="FilterLinkCompleted"
-              onClick={() => onFilterChange('completed')}
-            >
-              Completed
-            </a>
+            {Object.values(Filter).map(option => (
+              <a
+                key={option}
+                href={`#/${option}`}
+                className={classNames('filter__link', {
+                  selected: filter === option,
+                })}
+                data-cy={`FilterLink${option.charAt(0).toUpperCase() + option.slice(1)}`}
+                onClick={() => onFilterChange(option)}
+              >
+                {option.charAt(0).toUpperCase() + option.slice(1)}
+              </a>
+            ))}
           </nav>
 
           <button
